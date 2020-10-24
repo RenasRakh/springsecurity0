@@ -1,14 +1,22 @@
 package web.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "usefrs")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "name")
     private String firstName;
@@ -19,12 +27,29 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Role> roles = new HashSet<>();
+    //эти методы нужны, чтобы была двухсторонняя связь. если добавлям в юзера роль, то и в роли д добавиться юзер
+
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add( this );
+    }
+
+    public void removeRole(Role role) {
+        roles.remove( role );
+        role.getUsers().remove(this);
+    }
+
     public User() {}
 
-    public User(String firstName, String lastName, String email) {
+    public User(String username, String password, String firstName, String lastName, String email, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -33,6 +58,22 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -57,6 +98,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

@@ -13,8 +13,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
 @EnableWebMvc
-//@PropertySource("classpath:db.properties")
-//@EnableTransactionManagement
 @ComponentScan("web")
 public class WebConfig implements WebMvcConfigurer {
 
