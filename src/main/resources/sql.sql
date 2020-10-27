@@ -1,20 +1,20 @@
-CREATE TABLE `springsecurity`.`roles` (
+CREATE TABLE `springsecurity0`.`roles` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE);
 
-  CREATE TABLE `springsecurity`.`users` (
+  CREATE TABLE `springsecurity0`.`users` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE);
 
-  INSERT INTO `springsecurity`.`users` (`username`, `password`) VALUES ('user', '100');
-    INSERT INTO `springsecurity`.`users` (`username`, `password`) VALUES ('admin', '100');
+  INSERT INTO `springsecurity0`.`users` (`username`, `password`) VALUES ('user', '100');
+    INSERT INTO `springsecurity0`.`users` (`username`, `password`) VALUES ('admin', '100');
 
-    CREATE TABLE `springsecurity`.`users_roles` (
+    CREATE TABLE `springsecurity0`.`users_roles` (
   `user_id` BIGINT(20) NOT NULL,
   `role_id` BIGINT(20) NOT NULL,
   INDEX `fk_users_idx` (`user_id` ASC) VISIBLE,
@@ -30,8 +30,13 @@ CREATE TABLE `springsecurity`.`roles` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-    INSERT INTO `springsecurity`.`roles` (`name`) VALUES ('USER');
-INSERT INTO `springsecurity`.`roles` (`name`) VALUES ('ADMIN');
-INSERT INTO `springsecurity`.`roles` (`name`) VALUES ('MANAGER');
+INSERT INTO `springsecurity0`.`users` (`username`, `password`) VALUES ('user', '100');
+    INSERT INTO `springsecurity0`.`users` (`username`, `password`) VALUES ('admin', '100');
 
-INSERT INTO `springsecurity`.`users_roles` (`user_id`, `role_id`) VALUES ('1','1');
+    INSERT INTO `springsecurity0`.`roles` (`name`) VALUES ('USER');
+INSERT INTO `springsecurity0`.`roles` (`name`) VALUES ('ADMIN');
+
+INSERT INTO `springsecurity0`.`users_roles` (`users_id`, `roles_id`) VALUES ('1','1');
+
+DROP DATABASE springsecurity0;
+CREATE DATABASE springsecurity0;

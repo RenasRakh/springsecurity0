@@ -1,5 +1,6 @@
 package web.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import web.model.User;
 
@@ -12,6 +13,13 @@ public class UserDaoImp implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+//    private UserRepository userRepository;
+//
+//    @Autowired
+//    public void setUserRepository(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
 
 
 
@@ -45,6 +53,20 @@ public class UserDaoImp implements UserDao {
 
     }
 
+    @Override
+    public User getUserByUserName(String username) {
+        System.out.println("____");
+        User user = entityManager.createQuery(
+                "SELECT u from User u WHERE u.username = :username", User.class).
+                setParameter("username", username).getSingleResult();
+        System.out.println(user.toString());
+        return  user;
+    }
+
+    @Override
+    public void start(){
+
+    }
 }
 
 //@Repository
