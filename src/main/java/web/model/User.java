@@ -31,11 +31,12 @@ public class User implements UserDetails {
     @Column(name = "email")
     private String email;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Column(name = "roles")
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles = new HashSet<>();
     //эти методы нужны, чтобы была двухсторонняя связь. если добавлям в юзера роль, то и в роли д добавиться юзер
 
 //    public void addRole(Role role) {
@@ -50,7 +51,7 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String username, String password, String firstName, String lastName, String email, Collection<Role> roles) {
+    public User(String username, String password, String firstName, String lastName, String email, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -107,18 +108,17 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
     }
 
     @Override
@@ -143,6 +143,26 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "name: " + firstName +" " + lastName + ", " + email+ ", " + password+", ";
+        return "name: " + firstName +" " + lastName + ", " + email+ ", " + password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 }

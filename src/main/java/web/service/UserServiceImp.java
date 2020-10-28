@@ -61,7 +61,6 @@ public class UserServiceImp implements UserService{
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
-        System.out.println("loadUserByUsername");
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));// преобразуем юзер в спрингсекюровского юзера
     }
 
