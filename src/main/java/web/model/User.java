@@ -37,17 +37,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    //эти методы нужны, чтобы была двухсторонняя связь. если добавлям в юзера роль, то и в роли д добавиться юзер
 
-//    public void addRole(Role role) {
-//        roles.add(role);
-//        role.getUsers().add( this );
-//    }
-//
-//    public void removeRole(Role role) {
-//        roles.remove( role );
-//        role.getUsers().remove(this);
-//    }
 
     public User() {}
 
